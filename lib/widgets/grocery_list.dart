@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/grocery_item.dart';
 import 'package:shopping_list/widgets/new_item.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class GroceryList extends StatefulWidget {
   const GroceryList({super.key});
@@ -16,6 +17,7 @@ class _GroceryListState extends State<GroceryList> {
   List<GroceryItem> _groceryItems = [];
   var _isLoading = true;
   String? _error;
+  String databaseUrl = dotenv.env['DATABASE_URL'] ?? "";
 
   @override
   void initState() {
@@ -25,7 +27,7 @@ class _GroceryListState extends State<GroceryList> {
 
   void _loadItems() async {
     final url = Uri.https(
-      'shopping-list-flutter-11c2e-default-rtdb.asia-southeast1.firebasedatabase.app',
+      databaseUrl,
       'shopping-list.json',
     );
 

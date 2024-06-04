@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shopping_list/data/categories.dart';
 import 'package:shopping_list/models/category.dart';
 import 'package:shopping_list/models/grocery_item.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class NewItem extends StatefulWidget {
   const NewItem({super.key});
@@ -20,6 +21,7 @@ class _NewItemState extends State<NewItem> {
   var _enteredQuantity = 1;
   var _selectedCategory = categories[Categories.vegetables]!;
   var _isSending = false;
+  String databaseUrl = dotenv.env['DATABASE_URL'] ?? "";
 
   void _saveItem() async {
     if (_formKey.currentState!.validate()) {
@@ -28,7 +30,7 @@ class _NewItemState extends State<NewItem> {
         _isSending = true;
       });
       final url = Uri.https(
-        'shopping-list-flutter-11c2e-default-rtdb.asia-southeast1.firebasedatabase.app',
+        databaseUrl,
         'shopping-list.json',
       );
       final response = await http.post(
